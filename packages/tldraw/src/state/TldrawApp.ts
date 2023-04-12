@@ -3793,20 +3793,24 @@ export class TldrawApp extends StateManager<TDSnapshot> {
   }
 
   onPointerDown: TLPointerEventHandler = (info, e) => {
-    if (e.buttons === 4) {
-      this.isForcePanning = true
-    } else if (this.isPointing) {
-      return
+    const checkPointerTypes = (pr: boolean) => !pr || (pr && e.pointerType !== 'touch')
+
+    if (checkPointerTypes(this.settings.isPalmRejectionMode)) {
+      if (e.buttons === 4) {
+        this.isForcePanning = true
+      } else if (this.isPointing) {
+        return
+      }
+      this.isPointing = true
+      this.originPoint = this.getPagePoint(info.point).concat(info.pressure)
+      this.updateInputs(info, e)
+      if (this.isForcePanning) return
+      if (this.currentTool.type === TDShapeType.Draw && e.pointerType === 'pen' && e.button === 5) {
+        this.selectTool('erase')
+        this.isErasingWithPen = true
+      }
+      this.currentTool.onPointerDown?.(info, e)
     }
-    this.isPointing = true
-    this.originPoint = this.getPagePoint(info.point).concat(info.pressure)
-    this.updateInputs(info, e)
-    if (this.isForcePanning) return
-    if (this.currentTool.type === TDShapeType.Draw && e.pointerType === 'pen' && e.button === 5) {
-      this.selectTool('erase')
-      this.isErasingWithPen = true
-    }
-    this.currentTool.onPointerDown?.(info, e)
   }
 
   onPointerUp: TLPointerEventHandler = (info, e) => {
