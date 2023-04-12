@@ -81,6 +81,7 @@ export type TDDockPosition = 'bottom' | 'left' | 'right' | 'top'
 export interface TDSnapshot {
   settings: {
     isCadSelectMode: boolean
+    isPalmRejectionMode: boolean
     isDarkMode: boolean
     isDebugMode: boolean
     isPenMode: boolean

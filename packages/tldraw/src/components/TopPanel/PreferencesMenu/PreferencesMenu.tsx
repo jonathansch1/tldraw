@@ -28,6 +28,10 @@ export function PreferencesMenu() {
     app.setSetting('isFocusMode', (v) => !v)
   }, [app])
 
+  const togglePalmRejectionMode = React.useCallback(() => {
+    app.setSetting('isPalmRejectionMode', (v) => !v)
+  }, [app])
+
   const toggleGrid = React.useCallback(() => {
     app.setSetting('showGrid', (v) => !v)
   }, [app])
@@ -56,6 +60,15 @@ export function PreferencesMenu() {
 
   return (
     <DMSubMenu label={intl.formatMessage({ id: 'menu.preferences' })} id="TD-MenuItem-Preferences">
+      <DMCheckboxItem
+        checked={settings.isPalmRejectionMode}
+        onCheckedChange={togglePalmRejectionMode}
+        id="TD-MenuItem-Preferences-PalmRejection_Mode"
+        ariaLabel={intl.formatMessage({ id: 'preferences.palmRejection.mode' })}
+      >
+        <FormattedMessage id="preferences.palmRejection.mode" />
+      </DMCheckboxItem>
+      <Divider />
       <DMCheckboxItem
         checked={settings.isDarkMode}
         onCheckedChange={toggleDarkMode}

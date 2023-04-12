@@ -1044,6 +1044,17 @@ export class TldrawApp extends StateManager<TDSnapshot> {
   }
 
   /**
+   * Toggle palm rejection mode.
+   */
+  togglePalmRejectionMode = (): this => {
+    if (this.session) return this
+    const patch = { settings: { isPalmRejectionMode: !this.settings.isPalmRejectionMode } }
+    this.patchState(patch, `settings:toggled_palmRejection_mode`)
+    this.persist(patch)
+    return this
+  }
+
+  /**
    * Toggle zoom snap.
    */
   toggleZoomSnap = () => {
@@ -4189,6 +4200,7 @@ export class TldrawApp extends StateManager<TDSnapshot> {
     settings: {
       isCadSelectMode: false,
       isPenMode: false,
+      isPalmRejectionMode: false,
       isDarkMode: false,
       isZoomSnap: false,
       isFocusMode: false,
